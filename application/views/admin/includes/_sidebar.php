@@ -577,6 +577,16 @@ $cur_tab = $this->uri->segment(2)==''?'dashboard': $this->uri->segment(2);
           </ul>
         </li>
 <?php endif;  ?>
+<?php if($this->session->userdata('role_id')==2):?>		
+<li id="itemspara" class="nav-item">
+    <a href="<?= base_url('admin/pilotbank'); ?>" class="nav-link">
+        <i class="nav-icon fa fa-edit"></i>
+        <p>
+        	Pilot Bank
+        </p>
+    </a>
+</li>  
+<?php endif; ?> 
 
 <?php if($this->session->userdata('role_id')==4):?>
 <span style="font-size:20px; color:#CCC">2nd Phase/Circle</span>	
@@ -783,6 +793,7 @@ $cur_tab = $this->uri->segment(2)==''?'dashboard': $this->uri->segment(2);
           </a>
         </li>
 <?php endif; ?>
+          
 <?php /*
 
         <li id="widgets" class="nav-item">

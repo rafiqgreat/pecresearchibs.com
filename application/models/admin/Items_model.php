@@ -1166,11 +1166,11 @@
 			}
 			$excluded_items = rtrim($excluded_items, ",");
 			
-			
+			if($excluded_items=='') $excluded_items = '0';
 			/*SELECT COUNT(group_id) AS founded FROM `ci_items_group` WHERE group_item_1 = 10274 OR group_item_2 = 10274 OR group_item_3 = 10274 OR group_item_4 = 10274 OR group_item_5 = 10274 OR group_item_6 = 10274 OR group_item_7 = 10274 OR group_item_8 = 10274 OR group_item_9 = 10274 OR group_item_10 = 10274 
 
 SELECT COUNT(para_id) AS founded FROM `ci_items_paragraphs` WHERE para_item_21 = 10274 OR para_item_22 = 10274  OR para_item_23 = 10274 OR para_item_24 = 10274 OR para_item_25 = 2079 OR para_item_26 = 10274 OR para_item_27 = 10274 OR para_item_28 = 10274 OR para_item_29 = 10274 OR para_item_30 = 10274*/
-			
+			if($excluded_items=='') $excluded_items = '0';
 			
 			$wh =array('item_status_ae =1','item_exported=0','item_subject_id IN ('.$subjectList.')','item_id NOT IN ('.$excluded_items.')');
 			$SQL ='SELECT * FROM ci_items LEFT JOIN ci_grades ON grade_id = item_grade_id LEFT JOIN ci_subjects ON subject_id = item_subject_id LEFT JOIN ci_admin ON admin_id = item_submittedby';			
@@ -1219,6 +1219,7 @@ SELECT COUNT(para_id) AS founded FROM `ci_items_paragraphs` WHERE para_item_21 =
 			if($grade_id != 0)
 				{$wh[] ='item_grade_id='.$grade_id;}
 			
+			if($excluded_items=='') $excluded_items = '0';
 			$wh[] ='item_status_ae=1';
 			$wh[] ='item_exported=0';
 			$wh[] = 'item_subject_id IN ('.$subjectList.')';
@@ -1260,6 +1261,9 @@ SELECT COUNT(para_id) AS founded FROM `ci_items_paragraphs` WHERE para_item_21 =
 					$excluded_items .= $row2->item_id.",";
 			}
 			$excluded_items = rtrim($excluded_items, ",");
+			
+			if($excluded_items=='') $excluded_items = '0';
+			
 			
 			$wh =array('item_rev_status=1','item_rev_revid='.$this->session->userdata('admin_id'),'item_subject_id IN ('.$subjectList.')','item_id NOT IN ('.$excluded_items.')');
 			$SQL ='SELECT * FROM ci_items_rev LEFT JOIN ci_grades ON grade_id = item_grade_id LEFT JOIN ci_subjects ON subject_id = item_subject_id LEFT JOIN ci_admin ON admin_id = item_submittedby';			
@@ -1315,6 +1319,10 @@ SELECT COUNT(para_id) AS founded FROM `ci_items_paragraphs` WHERE para_item_21 =
 			}
 			$excluded_items = rtrim($excluded_items, ",");
 			
+			if($excluded_items=='') $excluded_items = '0';
+			
+		
+			
 			$wh =array('item_rev_status =2','item_rev_ss_status =0','item_subject_id IN ('.$subjectList.')','item_id NOT IN ('.$excluded_items.')');
 			$SQL ='SELECT * FROM ci_items_rev LEFT JOIN ci_grades ON grade_id = item_grade_id LEFT JOIN ci_subjects ON subject_id = item_subject_id LEFT JOIN ci_admin ON admin_id = item_submittedby';			
 			if(count($wh)>0)
@@ -1361,6 +1369,8 @@ SELECT COUNT(para_id) AS founded FROM `ci_items_paragraphs` WHERE para_item_21 =
 			if($grade_id != 0)
 				{$wh[] ='item_grade_id='.$grade_id;}
 			
+			if($excluded_items=='') $excluded_items = '0';
+			
 			$wh[] ='item_rev_status=2';
 			$wh[] ='item_rev_ss_status=0';
 			$wh[] = 'item_subject_id IN ('.$subjectList.')';
@@ -1403,6 +1413,8 @@ SELECT COUNT(para_id) AS founded FROM `ci_items_paragraphs` WHERE para_item_21 =
 					$excluded_items .= $row2->item_id.",";
 			}
 			$excluded_items = rtrim($excluded_items, ",");
+			
+			if($excluded_items=='') $excluded_items = '0';
 			
 			$wh =array('item_rev_ss_status=1','item_subject_id IN ('.$subjectList.')','item_id NOT IN ('.$excluded_items.')');
 			$SQL ='SELECT * FROM ci_items_rev LEFT JOIN ci_grades ON grade_id = item_grade_id LEFT JOIN ci_subjects ON subject_id = item_subject_id LEFT JOIN ci_admin ON admin_id = item_submittedby';			
@@ -1458,6 +1470,8 @@ SELECT COUNT(para_id) AS founded FROM `ci_items_paragraphs` WHERE para_item_21 =
 			}
 			$excluded_items = rtrim($excluded_items, ",");
 			
+			if($excluded_items=='') $excluded_items = '0';
+			
 			$wh =array('item_rev_status =2','item_rev_ss_status =2','item_rev_ae_status =0','item_subject_id IN ('.$subjectList.')');//,'item_id NOT IN ('.$excluded_items.')'
 			$SQL ='SELECT * FROM ci_items_rev LEFT JOIN ci_grades ON grade_id = item_grade_id LEFT JOIN ci_subjects ON subject_id = item_subject_id LEFT JOIN ci_admin ON admin_id = item_submittedby';			
 			if(count($wh)>0)
@@ -1495,6 +1509,8 @@ SELECT COUNT(para_id) AS founded FROM `ci_items_paragraphs` WHERE para_item_21 =
 					$excluded_items .= $row2->item_id.",";
 			}
 			$excluded_items = rtrim($excluded_items, ",");
+			
+			if($excluded_items=='') $excluded_items = '0';
 			
 			$wh =array('item_rev_status =2','item_rev_ss_status =2','item_rev_ae_status =1','item_subject_id IN ('.$subjectList.')','item_id NOT IN ('.$excluded_items.')');
 			$SQL ='SELECT * FROM ci_items_rev LEFT JOIN ci_grades ON grade_id = item_grade_id LEFT JOIN ci_subjects ON subject_id = item_subject_id LEFT JOIN ci_admin ON admin_id = item_submittedby';			
@@ -1558,6 +1574,8 @@ SELECT COUNT(para_id) AS founded FROM `ci_items_paragraphs` WHERE para_item_21 =
 				{$wh[] ='item_subject_id='.$subject_id;}
 			if($grade_id != 0)
 				{$wh[] ='item_grade_id='.$grade_id;}
+			
+			if($excluded_items=='') $excluded_items = '0';
 			
 			$wh[] ='item_rev_status=2';
 			$wh[] ='item_rev_ss_status=2';

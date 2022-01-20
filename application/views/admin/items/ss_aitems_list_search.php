@@ -13,7 +13,15 @@
           <h3 class="card-title"><i class="fa fa-list"></i>&nbsp; Accepted Items List (Submitted by Item Writers )</h3>
         </div>
         <div class="d-inline-block float-right">
-          <div class="btn-group margin-bottom-20"> 
+          <div class="btn-group margin-bottom-20">
+			  <?php
+				$param1 = (isset($search_grade)&&$search_grade!="")?$search_grade:0;
+				$param2 = (isset($search_subject)&&$search_subject!="")?$search_subject:0;
+				$param3 = (isset($item_submittedby)&&$item_submittedby!="")?$item_submittedby:0;
+				$param4 = (isset($item_type)&&$item_type!="")?$item_type:"";
+				//die($param1.'_'.$param2.'_'.$param3);
+				?>
+			  <a href="<?= base_url() ?>admin/items/create_flimzy_pdf/<?php print $param1.'_'.$param2.'_'.$param3.'_'.$param4;?>" class="btn btn-secondary" style="margin:05px">Export Flimzy as PDF</a>
             <a href="<?= base_url() ?>admin/items/create_ss_pitems_pdf" class="btn btn-secondary" style="margin:05px">Export as PDF</a>
             <?php /*?><a href="<?= base_url() ?>admin/items/export_ss_pitems_csv" class="btn btn-secondary" style="margin:05px">Export as CSV</a><?php */?>
           </div>         
