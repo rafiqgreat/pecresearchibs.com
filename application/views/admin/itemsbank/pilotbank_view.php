@@ -1,5 +1,4 @@
   <!-- Content Wrapper. Contains page content -->
-
 <style type="text/css" media="print">
 a, a:hover{
 	color: #000000;
@@ -61,7 +60,6 @@ a, a:hover{
     }
 }
 </style>
-
 <div class="content-wrapper">
 	<!-- Main content -->
 	<section class="content">
@@ -75,10 +73,11 @@ a, a:hover{
 				<!---- start here is item view filmzy --->
 				<!--Pilotheader-->
 				<?php
+				$i=0;
+				$sub_name = (isset($paper_mcqs[0]->subject_name_en)&&$paper_mcqs[0]->subject_name_en!="")?$paper_mcqs[0]->subject_name_en:'';
+				if(!empty($sub_name)){
 				$pilotheaders = $this->Pilotbank_model->get_pilotheader_by_suject($paper_mcqs[0]->subject_name_en);
-				$paper_hearders = (isset($pilotheaders[0]))?$pilotheaders[0]:"";
-				if(!empty($paper_hearders)){
-					
+				$paper_hearders = (isset($pilotheaders[0]))?$pilotheaders[0]:"";	
 				?>
                 	<div class="container" style="padding:25px">
 						<div class="row form-group">
@@ -87,10 +86,10 @@ a, a:hover{
 								<tbody>
 									<tr>
 										<td width="50%">
-											Serial No. _____________________
+											Roll No. _____________________
 										</td>
 										<td width="50%" align="right">
-											<div style="border: 2px solid #000000; font-size: 18px; font-weight: bold; min-width: 200px; display: inline-block;padding: 5px; text-align:center; margin-right:10px;">CRP-<?php print $ver_id;?></div>
+											<div style="border: 2px solid #000000; font-size: 18px; font-weight: bold; min-width: 200px; display: inline-block;padding: 5px; text-align:center; margin-right:10px;">Version-<?php print $ver_id;?></div>
 										</td>
 									</tr>
 								</tbody>
@@ -118,8 +117,12 @@ a, a:hover{
 											</table>
 										</td>
 										<td width="50%" align="center">
-											Curriculum Reform Performa<br>
-											<div style="border: 2px solid #000000; font-size: 18px; font-weight: bold; min-width: 200px; display: inline-block;padding: 5px;"><?php print $paper_mcqs[0]->subject_name_en;?></div>
+											Gender&nbsp;
+											<div style="border: 1px solid #000000; min-width: 80px; display: inline-block; display: inline-block">Male</div>&nbsp;
+<div style="border: 1px solid #000000; min-width: 80px; display: inline-block; display: inline-block">Female</div><br><br>
+											&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Area&nbsp;
+											<div style="border: 1px solid #000000; min-width: 80px; display: inline-block; display: inline-block">Urban</div>&nbsp;
+<div style="border: 1px solid #000000; min-width: 80px; display: inline-block; display: inline-block">Rural</div>
 										</td>
 									</tr>
 								</tbody>
@@ -174,14 +177,324 @@ a, a:hover{
 						<div style="width: 100%">
 							<?php
 							if(!empty($paper_mcqs)){
-								$i = 0;
+								//$i = 0;
 								$pagebreak = 4;
 								$pagebreakcount = 1;
 								$totalrecords = count($paper_mcqs);
+								
+								//echo '<pre>';
+								//print_r($paper_mcqs);
+								//die('abc');
 								foreach($paper_mcqs as $paper_mcq){
 									$i++;
 									if($paper_mcq->item_type == 'MCQ'){
 										
+										
+if($paper_mcqs[0]->subject_id == 26)
+{
+						if($i == 36)				
+						{
+								$sql = "SELECT * FROM `ci_items_paragraphs` WHERE  para_subject_id = ".$paper_mcqs[0]->subject_id ." AND para_item_21 = ".$paper_mcq->item_id;
+	//echo $sql;
+								$itemsparas = $this->Pilotbank_model->run_update_query_custom($sql);
+							$itemspara = $itemsparas[0];
+							//die('aaaa');
+							?>
+							 <div class="row">
+              	
+				<div class="col-lg-12 col-sm-12">                         
+                    <div class="row urdufont-right" style="float:right"><?php echo html_entity_decode($itemspara->para_title_ur);?> </div>
+                </div>
+             </div>
+			<div class="row">
+		<table style="width:100%">
+            <?php 
+			if($itemspara->para_text_en!='') 
+			{
+				if($itemspara->para_img_position=='Top'&&$itemspara->para_image!="") 
+				{ ?>
+				<tr><td style="text-align:center"><img src="<?= base_url().$itemspara->para_image;?>" style="max-height:250px; max-width:250px; margin: 4px;"/></td></tr>
+				<?php } ?>
+                 
+				<tr>
+                        <td colspan="2" >
+						<?php if($itemspara->para_img_position=='Left'&&$itemspara->para_image!='') {?> <img src="<?= base_url().$itemspara->para_image;?>" style="max-height:200px; float:left; margin: 4px;max-width:250px;"/> <?php }?> 
+							
+							<?php echo html_entity_decode($itemspara->para_text_en);?> 
+						
+                        <?php if($itemspara->para_img_position=='Right'&&$itemspara->para_image!='') {?> <img src="<?= base_url().$itemspara->para_image;?>" style="max-height:250px; float:right; margin: 4px;max-width:250px;"/> <?php }?>  
+                    </tr>
+                    
+				<?php if($itemspara->para_img_position=='Bottom'&&$itemspara->para_image!='') {?><tr><td style="text-align:center"><img src="<?= base_url().$itemspara->para_image;?>" style="max-height:250px;margin: 4px;max-width:250px;"/></td></tr><?php }?>
+                    
+				
+                    
+             <?php 
+			} 
+				
+				if($itemspara->para_text_ur!='')
+				{?>
+                    <?php if($itemspara->para_img_position=='Top'&&$itemspara->para_image!='') {?><tr><td style="text-align:center"><img src="<?= base_url().$itemspara->para_image;?>" style="max-height:400px;"/></td></tr><?php }?>
+                    <tr>
+                        <td colspan="2" style="text-align:right;" class="urdufont-right">
+						<?php if($itemspara->para_img_position=='Left'&&$itemspara->para_image!='') {?> <img src="<?= base_url().$itemspara->para_image;?>" style="max-height:400px; float:left"/> <?php }?>
+							
+						<?php echo html_entity_decode($itemspara->para_text_ur);?>
+							
+                        <?php if($itemspara->para_img_position=='Right'&&$itemspara->para_image!='') {?> <img src="<?= base_url().$itemspara->para_image;?>" style="max-height:400px; float:right"/> <?php }?> 
+                    </tr>
+                    <?php if($itemspara->para_img_position=='Bottom') {?><tr><td style="text-align:center"><img src="<?= base_url().$itemspara->para_image;?>" style="max-height:400px;"/></td></tr><?php }?>
+                    <?php }?>
+            </table>
+			</div>
+							
+							 
+							<?php
+						}
+						if($i == 41)				
+						{
+								$sql = "SELECT * FROM `ci_items_paragraphs` WHERE  para_subject_id = ".$paper_mcqs[0]->subject_id ." AND para_item_21 = ".$paper_mcq->item_id;
+	//echo $sql;
+						//	die();
+								$itemsparas = $this->Pilotbank_model->run_update_query_custom($sql);
+							$itemspara = $itemsparas[0];
+							//die('aaaa');
+							?>
+							 <div class="row">
+              	
+				<div class="col-lg-12 col-sm-12">                         
+                    <div class="row urdufont-right" style="float:right"><?php echo html_entity_decode($itemspara->para_title_ur);?> </div>
+                </div>
+             </div>
+			<div class="row">
+		<table style="width:100%">
+            <?php 
+			if($itemspara->para_text_en!='') 
+			{
+				if($itemspara->para_img_position=='Top'&&$itemspara->para_image!="") 
+				{ ?>
+				<tr><td style="text-align:center"><img src="<?= base_url().$itemspara->para_image;?>" style="max-height:250px; max-width:250px; margin: 4px;"/></td></tr>
+				<?php } ?>
+                 
+				<tr>
+                        <td colspan="2" >
+						<?php if($itemspara->para_img_position=='Left'&&$itemspara->para_image!='') {?> <img src="<?= base_url().$itemspara->para_image;?>" style="max-height:200px; float:left; margin: 4px;max-width:250px;"/> <?php }?> 
+							
+							<?php echo html_entity_decode($itemspara->para_text_en);?> 
+						
+                        <?php if($itemspara->para_img_position=='Right'&&$itemspara->para_image!='') {?> <img src="<?= base_url().$itemspara->para_image;?>" style="max-height:250px; float:right; margin: 4px;max-width:250px;"/> <?php }?>  
+                    </tr>
+                    
+				<?php if($itemspara->para_img_position=='Bottom'&&$itemspara->para_image!='') {?><tr><td style="text-align:center"><img src="<?= base_url().$itemspara->para_image;?>" style="max-height:250px;margin: 4px;max-width:250px;"/></td></tr><?php }?>
+                    
+				
+                    
+             <?php 
+			} 
+				
+				if($itemspara->para_text_ur!='')
+				{?>
+                    <?php if($itemspara->para_img_position=='Top'&&$itemspara->para_image!='') {?><tr><td style="text-align:center"><img src="<?= base_url().$itemspara->para_image;?>" style="max-height:400px;"/></td></tr><?php }?>
+                    <tr>
+                        <td colspan="2" style="text-align:right;" class="urdufont-right">
+						<?php if($itemspara->para_img_position=='Left'&&$itemspara->para_image!='') {?> <img src="<?= base_url().$itemspara->para_image;?>" style="max-height:400px; float:left"/> <?php }?>
+							
+						<?php echo html_entity_decode($itemspara->para_text_ur);?>
+							
+                        <?php if($itemspara->para_img_position=='Right'&&$itemspara->para_image!='') {?> <img src="<?= base_url().$itemspara->para_image;?>" style="max-height:400px; float:right"/> <?php }?> 
+                    </tr>
+                    <?php if($itemspara->para_img_position=='Bottom') {?><tr><td style="text-align:center"><img src="<?= base_url().$itemspara->para_image;?>" style="max-height:400px;"/></td></tr><?php }?>
+                    <?php }?>
+            </table>
+			</div>
+							
+							 
+							<?php
+						}
+						if($i == 46)				
+						{
+								$sql = "SELECT * FROM `ci_items_paragraphs` WHERE  para_subject_id = ".$paper_mcqs[0]->subject_id ." AND para_item_21 = ".$paper_mcq->item_id;
+	//echo $sql;
+								$itemsparas = $this->Pilotbank_model->run_update_query_custom($sql);
+							$itemspara = $itemsparas[0];
+							//die('aaaa');
+							?>
+							 <div class="row">
+              	
+				<div class="col-lg-12 col-sm-12">                         
+                    <div class="row urdufont-right" style="float:right"><?php echo html_entity_decode($itemspara->para_title_ur);?> </div>
+                </div>
+             </div>
+			<div class="row">
+		<table style="width:100%">
+            <?php 
+			if($itemspara->para_text_en!='') 
+			{
+				if($itemspara->para_img_position=='Top'&&$itemspara->para_image!="") 
+				{ ?>
+				<tr><td style="text-align:center"><img src="<?= base_url().$itemspara->para_image;?>" style="max-height:250px; max-width:250px; margin: 4px;"/></td></tr>
+				<?php } ?>
+                 
+				<tr>
+                        <td colspan="2" >
+						<?php if($itemspara->para_img_position=='Left'&&$itemspara->para_image!='') {?> <img src="<?= base_url().$itemspara->para_image;?>" style="max-height:200px; float:left; margin: 4px;max-width:250px;"/> <?php }?> 
+							
+							<?php echo html_entity_decode($itemspara->para_text_en);?> 
+						
+                        <?php if($itemspara->para_img_position=='Right'&&$itemspara->para_image!='') {?> <img src="<?= base_url().$itemspara->para_image;?>" style="max-height:250px; float:right; margin: 4px;max-width:250px;"/> <?php }?>  
+                    </tr>
+                    
+				<?php if($itemspara->para_img_position=='Bottom'&&$itemspara->para_image!='') {?><tr><td style="text-align:center"><img src="<?= base_url().$itemspara->para_image;?>" style="max-height:250px;margin: 4px;max-width:250px;"/></td></tr><?php }?>
+                    
+				
+                    
+             <?php 
+			} 
+				
+				if($itemspara->para_text_ur!='')
+				{?>
+                    <?php if($itemspara->para_img_position=='Top'&&$itemspara->para_image!='') {?><tr><td style="text-align:center"><img src="<?= base_url().$itemspara->para_image;?>" style="max-height:400px;"/></td></tr><?php }?>
+                    <tr>
+                        <td colspan="2" style="text-align:right;" class="urdufont-right">
+						<?php if($itemspara->para_img_position=='Left'&&$itemspara->para_image!='') {?> <img src="<?= base_url().$itemspara->para_image;?>" style="max-height:400px; float:left"/> <?php }?>
+							
+						<?php echo html_entity_decode($itemspara->para_text_ur);?>
+							
+                        <?php if($itemspara->para_img_position=='Right'&&$itemspara->para_image!='') {?> <img src="<?= base_url().$itemspara->para_image;?>" style="max-height:400px; float:right"/> <?php }?> 
+                    </tr>
+                    <?php if($itemspara->para_img_position=='Bottom') {?><tr><td style="text-align:center"><img src="<?= base_url().$itemspara->para_image;?>" style="max-height:400px;"/></td></tr><?php }?>
+                    <?php }?>
+            </table>
+			</div>
+							
+							 
+							<?php
+						}
+}
+										
+if($paper_mcqs[0]->subject_id == 25)
+{
+						
+						if($i == 41)				
+						{
+								$sql = "SELECT * FROM `ci_items_paragraphs` WHERE  para_subject_id = ".$paper_mcqs[0]->subject_id ." AND para_item_21 = ".$paper_mcq->item_id;
+	//echo $sql;
+							//die();
+								$itemsparas = $this->Pilotbank_model->run_update_query_custom($sql);
+							$itemspara = $itemsparas[0];
+							//die('aaaa');
+							?>
+							 <div class="row">
+              	
+				<div class="col-lg-12 col-sm-12">                         
+                    <div class="row" ><?php echo html_entity_decode($itemspara->para_title_en);?> </div>
+                </div>
+             </div>
+			<div class="row">
+		<table style="width:100%">
+            <?php 
+			if($itemspara->para_text_en!='') 
+			{
+				if($itemspara->para_img_position=='Top'&&$itemspara->para_image!="") 
+				{ ?>
+				<tr><td style="text-align:center"><img src="<?= base_url().$itemspara->para_image;?>" style="max-height:250px; max-width:250px; margin: 4px;"/></td></tr>
+				<?php } ?>
+                 
+				<tr>
+                        <td colspan="2" >
+						<?php if($itemspara->para_img_position=='Left'&&$itemspara->para_image!='') {?> <img src="<?= base_url().$itemspara->para_image;?>" style="max-height:200px; float:left; margin: 4px;max-width:250px;"/> <?php }?> 
+							
+							<?php echo html_entity_decode($itemspara->para_text_en);?> 
+						
+                        <?php if($itemspara->para_img_position=='Right'&&$itemspara->para_image!='') {?> <img src="<?= base_url().$itemspara->para_image;?>" style="max-height:250px; float:right; margin: 4px;max-width:250px;"/> <?php }?>  
+                    </tr>
+                    
+				<?php if($itemspara->para_img_position=='Bottom'&&$itemspara->para_image!='') {?><tr><td style="text-align:center"><img src="<?= base_url().$itemspara->para_image;?>" style="max-height:250px;margin: 4px;max-width:250px;"/></td></tr><?php }?>
+                    
+				
+                    
+             <?php 
+			} 
+				
+				if($itemspara->para_text_ur!='')
+				{?>
+                    <?php if($itemspara->para_img_position=='Top'&&$itemspara->para_image!='') {?><tr><td style="text-align:center"><img src="<?= base_url().$itemspara->para_image;?>" style="max-height:400px;"/></td></tr><?php }?>
+                    <tr>
+                        <td colspan="2" style="text-align:right;" class="urdufont-right">
+						<?php if($itemspara->para_img_position=='Left'&&$itemspara->para_image!='') {?> <img src="<?= base_url().$itemspara->para_image;?>" style="max-height:400px; float:left"/> <?php }?>
+							
+						<?php echo html_entity_decode($itemspara->para_text_ur);?>
+							
+                        <?php if($itemspara->para_img_position=='Right'&&$itemspara->para_image!='') {?> <img src="<?= base_url().$itemspara->para_image;?>" style="max-height:400px; float:right"/> <?php }?> 
+                    </tr>
+                    <?php if($itemspara->para_img_position=='Bottom') {?><tr><td style="text-align:center"><img src="<?= base_url().$itemspara->para_image;?>" style="max-height:400px;"/></td></tr><?php }?>
+                    <?php }?>
+            </table>
+			</div>
+							
+							 
+							<?php
+						}
+						if($i == 46)				
+						{
+								$sql = "SELECT * FROM `ci_items_paragraphs` WHERE  para_subject_id = ".$paper_mcqs[0]->subject_id ." AND para_item_21 = ".$paper_mcq->item_id;
+	//echo $sql;
+								$itemsparas = $this->Pilotbank_model->run_update_query_custom($sql);
+							$itemspara = $itemsparas[0];
+							//die('aaaa');
+							?>
+							 <div class="row">
+              	
+				<div class="col-lg-12 col-sm-12">                         
+                    <div class="row"><?php echo html_entity_decode($itemspara->para_title_en);?> </div>
+                </div>
+             </div>
+			<div class="row">
+		<table style="width:100%">
+            <?php 
+			if($itemspara->para_text_en!='') 
+			{
+				if($itemspara->para_img_position=='Top'&&$itemspara->para_image!="") 
+				{ ?>
+				<tr><td style="text-align:center"><img src="<?= base_url().$itemspara->para_image;?>" style="max-height:250px; max-width:250px; margin: 4px;"/></td></tr>
+				<?php } ?>
+                 
+				<tr>
+                        <td colspan="2" >
+						<?php if($itemspara->para_img_position=='Left'&&$itemspara->para_image!='') {?> <img src="<?= base_url().$itemspara->para_image;?>" style="max-height:200px; float:left; margin: 4px;max-width:250px;"/> <?php }?> 
+							
+							<?php echo html_entity_decode($itemspara->para_text_en);?> 
+						
+                        <?php if($itemspara->para_img_position=='Right'&&$itemspara->para_image!='') {?> <img src="<?= base_url().$itemspara->para_image;?>" style="max-height:250px; float:right; margin: 4px;max-width:250px;"/> <?php }?>  
+                    </tr>
+                    
+				<?php if($itemspara->para_img_position=='Bottom'&&$itemspara->para_image!='') {?><tr><td style="text-align:center"><img src="<?= base_url().$itemspara->para_image;?>" style="max-height:250px;margin: 4px;max-width:250px;"/></td></tr><?php }?>
+                    
+				
+                    
+             <?php 
+			} 
+				
+				if($itemspara->para_text_ur!='')
+				{?>
+                    <?php if($itemspara->para_img_position=='Top'&&$itemspara->para_image!='') {?><tr><td style="text-align:center"><img src="<?= base_url().$itemspara->para_image;?>" style="max-height:400px;"/></td></tr><?php }?>
+                    <tr>
+                        <td colspan="2" style="text-align:right;" class="urdufont-right">
+						<?php if($itemspara->para_img_position=='Left'&&$itemspara->para_image!='') {?> <img src="<?= base_url().$itemspara->para_image;?>" style="max-height:400px; float:left"/> <?php }?>
+							
+						<?php echo html_entity_decode($itemspara->para_text_ur);?>
+							
+                        <?php if($itemspara->para_img_position=='Right'&&$itemspara->para_image!='') {?> <img src="<?= base_url().$itemspara->para_image;?>" style="max-height:400px; float:right"/> <?php }?> 
+                    </tr>
+                    <?php if($itemspara->para_img_position=='Bottom') {?><tr><td style="text-align:center"><img src="<?= base_url().$itemspara->para_image;?>" style="max-height:400px;"/></td></tr><?php }?>
+                    <?php }?>
+            </table>
+			</div>
+							
+							 
+							<?php
+						}
+}
 								?>
 								<table class="content-block" width="100%" style="margin-top:10px;">
 								<?php if ($paper_mcq->item_image_position=='Top') 
@@ -222,7 +535,7 @@ a, a:hover{
 									<td colspan="2" style="font-weight:bold; font-size:16px">
                                     <?php if($this->session->userdata('role_id')==2 || $this->session->userdata('role_id')==4 || $this->session->userdata('role_id')== 1){?>
 											<?php if ($paper_mcq->item_type=='MCQ'){?>
-                                            <a href="<?php echo base_url('admin/pilot_items/pilot_view_combine/'.$paper_mcq->item_id); ?>" target="_blank">Question No.<?php print $i;?> :</a>
+                                            <a href="<?php echo base_url('admin/pilotbank/pilot_view_combine/'.$paper_mcq->item_id); ?>" target="_blank">Question No.<?php print $i;?> :</a>
                                             <?php }?>
                                             <?php }?>
 										<?php if($paper_mcq->item_image_position=='Left' && $paper_mcq->item_image_en!="")
@@ -320,12 +633,22 @@ a, a:hover{
 												<td>
 													<table border="0" cellspacing="2" cellpadding="2">
 														<tr>
+															<?php if($paper_mcqs[0]->subject_id == 26) 
+				{ ?>
 															<td style="font-size:16px;" >(a)
 																<span>
 																	<?php echo html_entity_decode($paper_mcq->item_option_a_en);?>
 																</span>
 															</td>
-															<td style="padding-left:50px">
+															
+															<?php } else { ?>
+															<td style="font-size:16px; width:auto; min-width: 200px;" >(a)
+																<span>
+																	<?php echo html_entity_decode($paper_mcq->item_option_a_en);?>
+																</span>
+															</td>
+															<?php } ?>
+															<td style="padding-left:50px; width:auto;">
 																<div class="urdufont-right" style="<?php print $hide_item_option_a_ur;?>">
 																	<?php echo html_entity_decode($paper_mcq->item_option_a_ur);?>
 																</div>
@@ -338,12 +661,20 @@ a, a:hover{
 												<td>
 													<table border="0" cellspacing="2" cellpadding="2">
 														<tr>
-															<td style="font-size:16px">(b)
+																<?php if($paper_mcqs[0]->subject_id == 26) { ?>
+															<td style="font-size:16px;" >(b)
 																<span>
 																	<?php echo html_entity_decode($paper_mcq->item_option_b_en);?>
 																</span>
 															</td>
-															<td style="padding-left:50px">
+															<?php } else { ?>
+															<td style="font-size:16px; width:auto;min-width: 200px;" >(b)
+																<span>
+																	<?php echo html_entity_decode($paper_mcq->item_option_b_en);?>
+																</span>
+															</td>
+															<?php } ?>
+															<td style="padding-left:50px; width:auto;">
 																<div class="urdufont-right" style="<?php print $hide_item_option_b_ur;?>">
 																	<?php echo html_entity_decode($paper_mcq->item_option_b_ur);?>
 																</div>
@@ -356,12 +687,20 @@ a, a:hover{
 												<td>
 													<table border="0" cellspacing="2" cellpadding="2">
 														<tr>
-															<td style="font-size:16px">(c)
+														<?php if($paper_mcqs[0]->subject_id == 26) { ?>
+															<td style="font-size:16px;" >(c)
 																<span>
 																	<?php echo html_entity_decode($paper_mcq->item_option_c_en);?>
 																</span>
 															</td>
-															<td style="padding-left:50px">
+														<?php } else { ?>
+					<td style="font-size:16px; width:auto;min-width: 200px;" >(c)
+																<span>
+																	<?php echo html_entity_decode($paper_mcq->item_option_c_en);?>
+																</span>
+															</td>															
+															<?php  	} ?>
+															<td style="padding-left:50px; width:auto;min-width: 200px;">
 																<div class="urdufont-right" style="<?php print $hide_item_option_c_ur;?>">
 																	<?php echo html_entity_decode($paper_mcq->item_option_c_ur);?>
 																</div>
@@ -374,20 +713,28 @@ a, a:hover{
 												<td>
 													<table border="0" cellspacing="2" cellpadding="2">
 														<tr>
-															<td style="font-size:16px">(d)
+														<?php if($paper_mcqs[0]->subject_id == 26) { ?>
+															<td style="font-size:16px;" >(d)
 																<span>
 																	<?php echo html_entity_decode($paper_mcq->item_option_d_en);?>
 																</span>
 															</td>
-															<td style="padding-left:50px">
-																<div class="urdufont-right" style="<?php print $hide_item_option_d_ur;?>text-align:right">
+														<?php } else { ?>
+					<td style="font-size:16px; width:auto;min-width: 200px;" >(d)
+																<span>
+																	<?php echo html_entity_decode($paper_mcq->item_option_d_en);?>
+																</span>
+															</td>															
+															<?php  	} ?>
+															<td style="padding-left:50px; width:auto;min-width: 200px;">
+																<div class="urdufont-right" style="<?php print $hide_item_option_d_ur;?>">
 																	<?php echo html_entity_decode($paper_mcq->item_option_d_ur);?>
 																</div>
 															</td>
 														</tr>
 													</table>
 												</td>
-											</tr>
+											</tr>											
 										</table>
 									</td>
 								</tr>
@@ -3079,7 +3426,6 @@ a, a:hover{
 						<?php  
 						}
 					}
-
 					if(isset($paper_para->para_item_24)&&$paper_para->para_item_24!=0)
 					{
 						$para_item_24 = $this->Pilotpaper_model->get_item_by_id($paper_para->para_item_24);
